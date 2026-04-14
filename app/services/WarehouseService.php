@@ -1,8 +1,6 @@
 <?php
 
-use Database;
-use Warehouse;
-use WarehouseValidator;
+namespace App\Services;
 
 require_once __DIR__ . '/../config/Database.php';
 require_once __DIR__ . '/../models/Warehouse.php';
@@ -147,7 +145,16 @@ class WareHouseService
             throw new Exception("Failed to delete warehouse: " . $e->getMessage());
         }
     }
+    public function getWarehouseManagers(string $warehouseId): array
+    {
+        $query = "SELECT u.* FROM users u
+                  JOIN warehouse_user wu ON u.id = wu.user_id
+                  WHERE wu.warehouse_id = :warehouse_id";
 
+        $stmt = $this->db->prepare($query);
+        $stmt->execute(['warehouse_id' => $warehouseId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     public function getWarehouseById(string $id): ?Warehouse
     {
         $query = "SELECT * FROM warehouses WHERE id = :id";
