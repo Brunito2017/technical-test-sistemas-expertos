@@ -1,13 +1,13 @@
 <?php
 class Warehouse
 {
-    public int $id;
-    public string $name;
-    public string $address;
-    public int $endowment;
-    public ?DateTime $created_at;
-    public ?DateTime $updated_at;
-    public bool $is_active;
+    public $id;
+    public $name;
+    public $address;
+    public $endowment;
+    public $created_at;
+    public $updated_at;
+    public $is_active;
 
     public function __construct($data = [])
     {
