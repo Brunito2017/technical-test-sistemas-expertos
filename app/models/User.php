@@ -2,16 +2,16 @@
 
 class User
 {
-    public int $id;
-    public string $run;
-    public string $first_name;
-    public string $last_name;
-    public string $second_last_name;
-    public string $address;
-    public string $phone;
-    public string $role;
-    public ?string $created_at;
-    public ?string $updated_at;
+    public $id;
+    public $run;
+    public $first_name;
+    public $last_name;
+    public $second_last_name;
+    public $address;
+    public $phone;
+    public $role;
+    public $created_at;
+    public $updated_at;
 
     public function __construct($data = [])
     {
