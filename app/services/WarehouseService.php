@@ -17,10 +17,10 @@ class WareHouseService
     public function getAllWarehouses(?string $status = null): array
     {
         $query = "SELECT w.*, 
-                     CONCAT(u.first_name, ' ', u.last_name, ' ', u.second_last_name) as manager_name
-              FROM warehouses w
-              LEFT JOIN warehouse_user wu ON w.id = wu.warehouse_id
-              LEFT JOIN users u ON wu.user_id = u.id";
+    string_agg(CONCAT(u.first_name, ' ', u.last_name, ' ', u.second_last_name), ', ') as manager_name
+FROM warehouses w
+LEFT JOIN warehouse_user wu ON w.id = wu.warehouse_id
+LEFT JOIN users u ON wu.user_id = u.id";
 
         if ($status === 'active') {
             $query .= " WHERE w.is_active = true";
@@ -28,7 +28,7 @@ class WareHouseService
             $query .= " WHERE w.is_active = false";
         }
 
-        $query .= " ORDER BY w.created_at DESC";
+        $query .= " GROUP BY w.id ORDER BY w.created_at DESC";
 
         $stmt = $this->db->prepare($query);
         $stmt->execute();
@@ -36,11 +36,11 @@ class WareHouseService
         $warehouses = [];
         $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
         foreach ($results as $row) {
-            $warehouses[] = new Warehouse($row);
+            $warehouses[] = $row; 
         }
 
         return $warehouses;
-    }
+    } 
 
     public function createWarehouse(array $data): Warehouse
     {
