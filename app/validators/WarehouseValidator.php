@@ -31,9 +31,11 @@ class WarehouseValidator
         }
 
         if ($requireAll || isset($data['endowment'])) {
-            if (!isset($data['endowment'])) {
+            if (!isset($data['endowment']) || $data['endowment'] === '') {
                 $errors['endowment'] = "Endowment is required";
-            } elseif (!is_numeric($data['endowment']) || $data['endowment'] < 0) {
+            } elseif (!is_numeric($data['endowment'])) {
+                $errors['endowment'] = "Endowment must be a number";
+            } elseif ($data['endowment'] < 0) {
                 $errors['endowment'] = "Endowment must be a positive number";
             }
         }
