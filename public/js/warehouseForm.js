@@ -30,9 +30,9 @@ export function initForm() {
       id:          form.id.value.trim(),
       name:        form.name.value.trim(),
       address:     form.address.value.trim(),
-      endowment:   form.endowment.value.trim(),
+      endowment:   parseInt(form.endowment.value, 10),
       manager_ids: Array.from(form.managers.selectedOptions).map(opt => opt.value),
-      is_active:   true
+      is_active:   form.is_active.value === 'true'
     };
 
     if (!data.id || !data.name || !data.address || !data.endowment) {
@@ -40,13 +40,14 @@ export function initForm() {
       return;
     }
 
-    const res = await warehouseApi.create(data); 
-    if (res.error) {
-      alert(res.error);
-    } else {
+    try {
+      const res = await warehouseApi.create(data); 
       alert('Bodega registrada con éxito');
       form.reset();
       document.dispatchEvent(new CustomEvent('warehouse:created'));
+    } catch (error) {
+      console.error('Error completo:', error);
+      alert('Error al registrar: ' + error.message);
     }
   });
 }

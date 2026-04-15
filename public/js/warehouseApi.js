@@ -11,10 +11,15 @@ const http = {
     if (body) options.body = JSON.stringify(body);
 
     const res = await fetch(`${BASE_URL}/${endpoint}`, options);
+    
+    const data = await res.json();
 
-    if (!res.ok) throw new Error(`Error ${res.status}: ${res.statusText}`);
+    if (!res.ok) {
+      console.error('Error del servidor:', data);
+      throw new Error(data.error || `Error ${res.status}: ${res.statusText}`);
+    }
 
-    return res.json();
+    return data;
   },
 
   get(endpoint, params = {}) {

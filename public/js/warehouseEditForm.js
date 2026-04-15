@@ -38,6 +38,7 @@ async function fillEditForm() {
   form.name.value = w.name;
   form.address.value = w.address;
   form.endowment.value = w.endowment;
+  form.is_active.value = w.is_active ? 'true' : 'false';
   await loadManagers(managersSelect, w.manager_ids || []);
 }
 
@@ -49,24 +50,27 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
     const warehouseId = getWarehouseIdFromUrl();
     const managersSelect = form.querySelector('select[name="managers"]');
+    const isActiveSelect = form.querySelector('select[name="is_active"]');
     const data = {
       id: warehouseId,
       name: form.name.value.trim(),
       address: form.address.value.trim(),
-      endowment: form.endowment.value.trim(),
+      endowment: parseInt(form.endowment.value, 10),
       manager_ids: Array.from(managersSelect.selectedOptions).map(opt => opt.value),
-      is_active: true
+      is_active: isActiveSelect.value === 'true'
     };
+    console.log('Datos a enviar:', data);
     if (!data.name || !data.address || !data.endowment) {
       alert('Todos los campos son obligatorios');
       return;
     }
-    const res = await warehouseApi.update(data);
-    if (res.error) {
-      alert(res.error);
-    } else {
+    try {
+      const res = await warehouseApi.update(data);
       alert('Bodega actualizada con éxito');
       window.location.href = 'index.html';
+    } catch (error) {
+      console.error('Error completo:', error);
+      alert('Error al actualizar: ' + error.message);
     }
   });
 });
