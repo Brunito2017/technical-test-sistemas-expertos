@@ -30,6 +30,7 @@ const http = {
 
 const warehouseApi = {
   getAll(status = null)  { return http.get('Warehouse.php', status ? { status } : {}); },
+  getById(id)            { return http.get('Warehouse.php', { id }); },
   create(data)           { return http.post('Warehouse.php', data); },
   update(data)           { return http.put('Warehouse.php', data); },
   delete(id)             { return http.delete('Warehouse.php', { id }); },

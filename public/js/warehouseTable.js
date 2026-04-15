@@ -1,4 +1,3 @@
-
 import warehouseApi from './warehouseApi.js';
 
 function renderTable(data) {
@@ -41,14 +40,22 @@ export function initTable() {
   });
 
   document.querySelector('#warehouse-table')?.addEventListener('click', async (e) => {
-    if (!e.target.classList.contains('btn-delete')) return;
+    if (e.target.classList.contains('btn-edit')) {
+      const id = e.target.dataset.id;
+      window.location.href = `form-edit.html?id=${encodeURIComponent(id)}`;
+      return;
+    }
 
-    const id = e.target.dataset.id;
-    const confirmar = confirm('¿Estás seguro? Esta acción eliminará la bodega y no se puede deshacer.');
-
-    if (confirmar) {
-      await warehouseApi.delete(id);
-      loadWarehouses();
+    if (e.target.classList.contains('btn-delete')) {
+      const id = e.target.dataset.id;
+      const confirmar = confirm('¿Estás seguro? Esta acción eliminará la bodega y no se puede deshacer.');
+      if (confirmar) {
+        await warehouseApi.delete(id);
+        loadWarehouses();
+      }
+      return;
     }
   });
+
+  
 }
