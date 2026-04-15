@@ -59,4 +59,6 @@ El proyecto sigue una arquitectura **MVC**:
 
 ## Autor
 
+Repositorio: https://github.com/Brunito2017/technical-test-sistemas-expertos
+
 Prueba técnica desarrollada para postulación a Sistemas Expertos — Abril 2026
