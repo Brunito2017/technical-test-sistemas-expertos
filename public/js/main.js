@@ -1,3 +1,6 @@
+/**
+ * Punto de entrada principal de la aplicación.
+ */
 
 import warehouseApi from './warehouseApi.js';
 import { initTable } from './warehouseTable.js';

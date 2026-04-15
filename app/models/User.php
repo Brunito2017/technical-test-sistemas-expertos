@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Modelo de usuario que representa a los encargados de bodegas.
+ */
 class User
 {
     public $id;
@@ -13,6 +16,11 @@ class User
     public $created_at;
     public $updated_at;
 
+    /**
+     * Constructor del modelo User.
+     * 
+     * @param array $data Datos del usuario para inicializar el modelo
+     */
     public function __construct($data = [])
     {
         $this->id                = $data['id'] ?? null;

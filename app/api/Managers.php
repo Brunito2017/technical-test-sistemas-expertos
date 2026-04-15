@@ -1,4 +1,9 @@
 <?php
+
+/**
+ * API endpoint para obtener la lista de encargados disponibles.
+ */
+
 require_once __DIR__ . '/../config/Database.php';
 
 header('Access-Control-Allow-Origin: *');

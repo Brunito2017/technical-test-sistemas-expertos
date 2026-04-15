@@ -1,10 +1,21 @@
 import warehouseApi from './warehouseApi.js';
 
+/**
+ * Obtiene el ID de la bodega desde la URL.
+ * 
+ * @returns {string|null} ID de la bodega o null
+ */
 function getWarehouseIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
   return params.get('id');
 }
 
+/**
+ * Carga los encargados disponibles en el select del formulario con los seleccionados.
+ * 
+ * @param {HTMLSelectElement} managersSelect - Elemento select para los encargados
+ * @param {Array<string>} selectedIds - IDs de encargados seleccionados
+ */
 async function loadManagers(managersSelect, selectedIds = []) {
   managersSelect.innerHTML = '<option disabled selected>Cargando...</option>';
   try {
@@ -22,6 +33,9 @@ async function loadManagers(managersSelect, selectedIds = []) {
   }
 }
 
+/**
+ * Carga los datos de la bodega en el formulario de edición.
+ */
 async function fillEditForm() {
   const form = document.getElementById('warehouse-edit-form');
   const managersSelect = form.querySelector('select[name="managers"]');

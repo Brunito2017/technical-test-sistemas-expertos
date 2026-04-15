@@ -2,15 +2,26 @@
 
 require_once __DIR__ . '/../services/WareHouseService.php';
 
+/**
+ * Controlador que maneja las peticiones HTTP relacionadas con bodegas.
+ */
 class WarehouseController
 {
     private $warehouseService;
 
+    /**
+     * Constructor del controlador de bodegas.
+     */
     public function __construct()
     {
         $this->warehouseService = new WareHouseService();
     }
 
+    /**
+     * Lista todas las bodegas, opcionalmente filtradas por estado.
+     * 
+     * @return void
+     */
     public function index(): void
     {
         $status = $_GET['status'] ?? null;
@@ -18,6 +29,12 @@ class WarehouseController
 
         echo json_encode($wareHouses);
     }
+
+    /**
+     * Crea una nueva bodega.
+     * 
+     * @return void
+     */
     public function store(): void
     {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -30,6 +47,12 @@ class WarehouseController
             echo json_encode(['error' => $e->getMessage()]);
         }
     }
+
+    /**
+     * Actualiza una bodega existente.
+     * 
+     * @return void
+     */
     public function update(): void
     {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -47,6 +70,11 @@ class WarehouseController
         }
     }
 
+    /**
+     * Elimina una bodega del sistema.
+     * 
+     * @return void
+     */
     public function delete(): void
     {
         $data = json_decode(file_get_contents('php://input'), true);
@@ -63,6 +91,12 @@ class WarehouseController
             echo json_encode(['error' => $e->getMessage()]);
         }
     }
+
+    /**
+     * Obtiene los detalles de una bodega específica incluyendo sus encargados.
+     * 
+     * @return void
+     */
     public function show(): void
     {
         $id = $_GET['id'] ?? null;

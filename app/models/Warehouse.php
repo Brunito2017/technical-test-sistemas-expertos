@@ -1,4 +1,8 @@
 <?php
+
+/**
+ * Modelo de bodega que representa las bodegas del sistema.
+ */
 class Warehouse
 {
     public $id;
@@ -9,6 +13,11 @@ class Warehouse
     public $updated_at;
     public $is_active;
 
+    /**
+     * Constructor del modelo Warehouse.
+     * 
+     * @param array $data Datos de la bodega para inicializar el modelo
+     */
     public function __construct($data = [])
     {
         $this->id        = $data['id'] ?? null;

@@ -1,7 +1,20 @@
-
+/**
+ * URL base de la API.
+ */
 const BASE_URL = 'http://localhost/technical-test-sistemas-expertos/app/api';
 
+/**
+ * Cliente HTTP para realizar peticiones a la API.
+ */
 const http = {
+  /**
+   * Realiza una petición HTTP a la API.
+   * 
+   * @param {string} endpoint - Endpoint de la API
+   * @param {string} method - Método HTTP (GET, POST, PUT, DELETE)
+   * @param {Object|null} body - Cuerpo de la petición
+   * @returns {Promise<Object>} Respuesta de la API
+   */
   async request(endpoint, method = 'GET', body = null) {
     const options = {
       method,
@@ -33,6 +46,9 @@ const http = {
   delete(endpoint, body) { return this.request(endpoint, 'DELETE', body); },
 };
 
+/**
+ * API para gestionar operaciones de bodegas y encargados.
+ */
 const warehouseApi = {
   getAll(status = null)  { return http.get('Warehouse.php', status ? { status } : {}); },
   getById(id)            { return http.get('Warehouse.php', { id }); },

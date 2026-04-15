@@ -1,5 +1,10 @@
 import warehouseApi from './warehouseApi.js';
 
+/**
+ * Renderiza la tabla de bodegas con los datos proporcionados.
+ * 
+ * @param {Array<Object>} data - Array de bodegas a mostrar
+ */
 function renderTable(data) {
   const tbody = document.querySelector('#warehouse-table tbody');
   tbody.innerHTML = '';
@@ -23,6 +28,11 @@ function renderTable(data) {
   });
 }
 
+/**
+ * Carga las bodegas desde la API y las renderiza en la tabla.
+ * 
+ * @param {string|null} status - Estado de las bodegas a filtrar ('active', 'inactive' o null)
+ */
 async function loadWarehouses(status = null) {
   try {
     const json = await warehouseApi.getAll(status);
@@ -32,6 +42,9 @@ async function loadWarehouses(status = null) {
   }
 }
 
+/**
+ * Inicializa la tabla de bodegas y sus eventos.
+ */
 export function initTable() {
   loadWarehouses();
 

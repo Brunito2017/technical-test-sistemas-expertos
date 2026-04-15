@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Clase para gestionar la conexión a la base de datos PostgreSQL.
+ */
 class Database
 {
 	private static $host = 'localhost';
@@ -9,7 +12,11 @@ class Database
 	private static $password = 'xa31_S'; 
 	private static $pdo = null;
 
-
+	/**
+	 * Obtiene la conexión a la base de datos (singleton).
+	 * 
+	 * @return \PDO Instancia de la conexión PDO
+	 */
 	public static function getConnection(): \PDO
 	{
 		if (self::$pdo === null) {

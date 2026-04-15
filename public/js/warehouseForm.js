@@ -1,5 +1,10 @@
 import warehouseApi from './warehouseApi.js';
 
+/**
+ * Carga los encargados disponibles en el select del formulario.
+ * 
+ * @param {HTMLSelectElement} managersSelect - Elemento select para los encargados
+ */
 async function loadManagers(managersSelect) {
   managersSelect.innerHTML = '<option disabled selected>Cargando...</option>';
   try {
@@ -16,6 +21,9 @@ async function loadManagers(managersSelect) {
   }
 }
 
+/**
+ * Inicializa el formulario de creación de bodegas.
+ */
 export function initForm() {
   const form = document.getElementById('warehouse-form');
   if (!form) return; 

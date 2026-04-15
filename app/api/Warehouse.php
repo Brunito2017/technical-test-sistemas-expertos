@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * API endpoint para gestionar las operaciones CRUD de bodegas.
+ * Enruta las peticiones al controlador correspondiente.
+ */
+
 require_once __DIR__ . '/../controllers/WareHouseController.php';
 
 header('Access-Control-Allow-Origin: *');

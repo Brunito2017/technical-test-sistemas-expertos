@@ -1,12 +1,13 @@
 <?php
 
-
 require_once __DIR__ . '/../config/Database.php';
 require_once __DIR__ . '/../models/Warehouse.php';
 require_once __DIR__ . '/../validators/WarehouseValidator.php';
 
+/**
+ * Servicio que gestiona la lógica de negocio de las bodegas.
+ */
 class WareHouseService
-
 {
     private $db;
 
@@ -14,6 +15,13 @@ class WareHouseService
     {
         $this->db = Database::getConnection();
     }
+
+    /**
+     * Obtiene todas las bodegas con sus encargados.
+     * 
+     * @param string|null $status Filtra por estado: 'active', 'inactive' o null para todas
+     * @return array Lista de bodegas
+     */
     public function getAllWarehouses(?string $status = null): array
     {
         $query = "SELECT w.*, 
@@ -40,8 +48,15 @@ LEFT JOIN users u ON wu.user_id = u.id";
         }
 
         return $warehouses;
-    } 
+    }
 
+    /**
+     * Crea una nueva bodega en el sistema.
+     * 
+     * @param array $data Datos de la bodega a crear
+     * @return Warehouse Bodega creada
+     * @throws Exception Si hay errores de validación o la bodega ya existe
+     */
     public function createWarehouse(array $data): Warehouse
     {
         WarehouseValidator::validateOrFail($data, true);
@@ -78,6 +93,15 @@ LEFT JOIN users u ON wu.user_id = u.id";
             throw new Exception("Failed to create warehouse: " . $e->getMessage());
         }
     }
+
+    /**
+     * Actualiza una bodega existente.
+     * 
+     * @param string $id ID de la bodega a actualizar
+     * @param array $data Nuevos datos de la bodega
+     * @return Warehouse Bodega actualizada
+     * @throws Exception Si la bodega no existe o hay errores de validación
+     */
     public function updateWarehouse(string $id, array $data): Warehouse
     {
         $wareHouse = $this->getWarehouseById($id);
@@ -123,6 +147,14 @@ LEFT JOIN users u ON wu.user_id = u.id";
             throw new Exception("Failed to update warehouse: " . $e->getMessage());
         }
     }
+
+    /**
+     * Elimina una bodega del sistema.
+     * 
+     * @param string $id ID de la bodega a eliminar
+     * @return void
+     * @throws Exception Si la bodega no existe o hay errores al eliminar
+     */
     public function deleteWarehouse(string $id): void
     {
         $wareHouse = $this->getWarehouseById($id);
@@ -146,6 +178,13 @@ LEFT JOIN users u ON wu.user_id = u.id";
             throw new Exception("Failed to delete warehouse: " . $e->getMessage());
         }
     }
+
+    /**
+     * Obtiene los encargados de una bodega específica.
+     * 
+     * @param string $warehouseId ID de la bodega
+     * @return array Lista de encargados
+     */
     public function getWarehouseManagers(string $warehouseId): array
     {
         $query = "SELECT u.* FROM users u
@@ -157,6 +196,12 @@ LEFT JOIN users u ON wu.user_id = u.id";
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    /**
+     * Obtiene los IDs de los encargados de una bodega.
+     * 
+     * @param string $warehouseId ID de la bodega
+     * @return array Lista de IDs de encargados
+     */
     public function getWarehouseManagerIds(string $warehouseId): array
     {
         $query = "SELECT user_id FROM warehouse_user WHERE warehouse_id = :warehouse_id";
@@ -164,6 +209,13 @@ LEFT JOIN users u ON wu.user_id = u.id";
         $stmt->execute(['warehouse_id' => $warehouseId]);
         return array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'user_id');
     }
+
+    /**
+     * Obtiene una bodega por su ID.
+     * 
+     * @param string $id ID de la bodega
+     * @return Warehouse|null Bodega encontrada o null si no existe
+     */
     public function getWarehouseById(string $id): ?Warehouse
     {
         $query = "SELECT * FROM warehouses WHERE id = :id";
@@ -173,6 +225,13 @@ LEFT JOIN users u ON wu.user_id = u.id";
         return $data ? new Warehouse($data) : null;
     }
 
+    /**
+     * Asocia encargados a una bodega en la tabla intermedia.
+     * 
+     * @param string $warehouseId ID de la bodega
+     * @param array $managerIds IDs de los encargados a asociar
+     * @return void
+     */
     private function associateManagers(string $warehouseId, array $managerIds): void
     {
         $stmt = $this->db->prepare(
@@ -186,6 +245,12 @@ LEFT JOIN users u ON wu.user_id = u.id";
         }
     }
 
+    /**
+     * Convierte un valor a tipo booleano.
+     * 
+     * @param mixed $value Valor a convertir
+     * @return bool Valor booleano resultante
+     */
     private function toBool($value): bool
     {
         if (is_bool($value)) {
