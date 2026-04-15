@@ -23,15 +23,20 @@ Sistema web para administrar bodegas: crear, listar, editar y eliminar.
 
 ## Instalación
 
-1. Copiar el proyecto en la carpeta del servidor web
-2. Crear la base de datos y ejecutar el script:
-```bash
-psql -U postgres -c "CREATE DATABASE houseware_db;"
-psql -U postgres -d houseware_db -f database.sql
-```
-3. Configurar credenciales en `app/config/Database.php`
-4. Configurar la URL base en `public/js/warehouseApi.js`
-5. Acceder a `http://localhost/technical-test-sistemas-expertos/public/index.html`
+
+1. Copia el proyecto en la carpeta del servidor web
+2. Crea la base de datos y ejecuta el dump:
+  ```bash
+  psql -U postgres -c "CREATE DATABASE houseware_db;"
+  psql -U postgres -d houseware_db -f schema_tech_dump.sql
+  ```
+3. (Opcional) Inserta usuarios de ejemplo:
+  ```bash
+  php seed_users.php
+  ```
+4. Configura credenciales en `app/config/Database.php`
+5. Configura la URL base en `public/js/warehouseApi.js`
+6. Accede a `http://localhost/technical-test-sistemas-expertos/public/index.html`
 
 ---
 
