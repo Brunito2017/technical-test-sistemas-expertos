@@ -13,7 +13,8 @@ class WarehouseController
 
     public function index(): void
     {
-        $wareHouses = $this->warehouseService->getAllWarehouses();
+        $status = $_GET['status'] ?? null;
+        $wareHouses = $this->warehouseService->getAllWarehouses($status);
 
         echo json_encode($wareHouses);
     }

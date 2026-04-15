@@ -58,13 +58,13 @@ LEFT JOIN users u ON wu.user_id = u.id";
                  VALUES (:id, :name, :address, :endowment, :is_active, NOW(), NOW())"
             );
 
-            $stmt->execute([
-                'id' => $data['id'],
-                'name' => $data['name'],
-                'address' => $data['address'],
-                'endowment' => $data['endowment'],
-                'is_active' => $data['is_active'] ?? true
-            ]);
+            $isActive = $this->toBool($data['is_active'] ?? true);
+            $stmt->bindValue(':id', $data['id'], PDO::PARAM_STR);
+            $stmt->bindValue(':name', $data['name'], PDO::PARAM_STR);
+            $stmt->bindValue(':address', $data['address'], PDO::PARAM_STR);
+            $stmt->bindValue(':endowment', (int)$data['endowment'], PDO::PARAM_INT);
+            $stmt->bindValue(':is_active', $isActive, PDO::PARAM_BOOL);
+            $stmt->execute();
 
             if (!empty($data['manager_ids'])) {
                 $this->associateManagers($data['id'], $data['manager_ids']);
@@ -98,18 +98,20 @@ LEFT JOIN users u ON wu.user_id = u.id";
 
             $stmt = $this->db->prepare($query);
 
-            $stmt->execute([
-                'id' => $id,
-                'name' => $data['name'],
-                'address' => $data['address'],
-                'endowment' => $data['endowment'],
-                'is_active' => $data['is_active'] ?? true
-            ]);
+            $isActive = $this->toBool($data['is_active'] ?? true);
+            $stmt->bindValue(':id', $id, PDO::PARAM_STR);
+            $stmt->bindValue(':name', $data['name'], PDO::PARAM_STR);
+            $stmt->bindValue(':address', $data['address'], PDO::PARAM_STR);
+            $stmt->bindValue(':endowment', (int)$data['endowment'], PDO::PARAM_INT);
+            $stmt->bindValue(':is_active', $isActive, PDO::PARAM_BOOL);
+            $stmt->execute();
 
-            if (!empty($data['manager_ids'])) {
+            if (isset($data['manager_ids'])) {
                 $this->db->prepare("DELETE FROM warehouse_user WHERE warehouse_id = :id")
                     ->execute(['id' => $id]);
-                $this->associateManagers($id, $data['manager_ids']);
+                if (!empty($data['manager_ids'])) {
+                    $this->associateManagers($id, $data['manager_ids']);
+                }
             }
 
 
@@ -182,5 +184,19 @@ LEFT JOIN users u ON wu.user_id = u.id";
                 'user_id' => $managerId
             ]);
         }
+    }
+
+    private function toBool($value): bool
+    {
+        if (is_bool($value)) {
+            return $value;
+        }
+        if ($value === 'true' || $value === '1' || $value === 1) {
+            return true;
+        }
+        if ($value === 'false' || $value === '0' || $value === 0 || $value === '' || $value === null) {
+            return false;
+        }
+        return (bool)$value;
     }
 }
