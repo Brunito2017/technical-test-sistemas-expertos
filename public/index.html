@@ -6,17 +6,32 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <h1>Lista de Warehouses</h1>
+  <h1>Lista de Bodegas</h1>
+  
+  <div style="margin-bottom: 20px;">
+    <label for="filter-status">Filtrar por estado:</label>
+    <select id="filter-status">
+      <option value="">Todos</option>
+      <option value="active">Activadas</option>
+      <option value="inactive">Desactivadas</option>
+    </select>
+    
+    <a href="form.html" style="margin-left: 20px;">
+      <button type="button">Registrar nueva bodega</button>
+    </a>
+  </div>
+
   <table id="warehouse-table" border="1" cellpadding="8" cellspacing="0">
     <thead>
       <tr>
-        <th>ID</th>
+        <th>Código</th>
         <th>Nombre</th>
         <th>Dirección</th>
         <th>Dotación</th>
         <th>Encargado(s)</th>
-        <th>Creado</th>
-        <th>Activo</th>
+        <th>Fecha de Creación</th>
+        <th>Estado</th>
+        <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
