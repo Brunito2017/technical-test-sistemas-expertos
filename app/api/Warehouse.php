@@ -15,6 +15,7 @@ $routes = [
     'GET' => [
         '' => ['WarehouseController', 'index'],
         '/' => ['WarehouseController', 'index'],
+        '/show' => ['WarehouseController', 'show'],
     ],
     'POST' => [
         '' => ['WarehouseController', 'store'],
@@ -34,8 +35,9 @@ $method = $_SERVER['REQUEST_METHOD'];
 $scriptName = $_SERVER['SCRIPT_NAME'];
 $uri = str_replace($scriptName, '', parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
 
-
-if (isset($routes[$method][$uri])) {
+if ($method === 'GET' && isset($_GET['id'])) {
+    (new WarehouseController())->show();
+} elseif (isset($routes[$method][$uri])) {
     [$controller, $action] = $routes[$method][$uri];
     (new $controller())->$action();
 } else {

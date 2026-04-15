@@ -154,6 +154,14 @@ LEFT JOIN users u ON wu.user_id = u.id";
         $stmt->execute(['warehouse_id' => $warehouseId]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function getWarehouseManagerIds(string $warehouseId): array
+    {
+        $query = "SELECT user_id FROM warehouse_user WHERE warehouse_id = :warehouse_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute(['warehouse_id' => $warehouseId]);
+        return array_column($stmt->fetchAll(PDO::FETCH_ASSOC), 'user_id');
+    }
     public function getWarehouseById(string $id): ?Warehouse
     {
         $query = "SELECT * FROM warehouses WHERE id = :id";
