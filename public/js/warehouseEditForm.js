@@ -11,25 +11,30 @@ function getWarehouseIdFromUrl() {
 }
 
 /**
- * Carga los encargados disponibles en el select del formulario con los seleccionados.
+ * Carga los encargados disponibles como checkboxes en el formulario con los seleccionados.
  * 
- * @param {HTMLSelectElement} managersSelect - Elemento select para los encargados
+ * @param {HTMLElement} container - Contenedor donde se renderizan los checkboxes
  * @param {Array<string>} selectedIds - IDs de encargados seleccionados
  */
-async function loadManagers(managersSelect, selectedIds = []) {
-  managersSelect.innerHTML = '<option disabled selected>Cargando...</option>';
+async function loadManagersCheckboxes(container, selectedIds = []) {
+  container.innerHTML = '<span style="color:#888">Cargando...</span>';
   try {
     const res = await warehouseApi.getManagers();
-    managersSelect.innerHTML = '';
+    container.innerHTML = '';
     (res.data || res).forEach(manager => {
-      const option = document.createElement('option');
-      option.value = manager.id;
-      option.textContent = `${manager.first_name} ${manager.last_name} ${manager.second_last_name} (${manager.run})`;
-      if (selectedIds.includes(manager.id)) option.selected = true;
-      managersSelect.appendChild(option);
+      const label = document.createElement('label');
+      label.style.display = 'block';
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.name = 'managers';
+      checkbox.value = manager.id;
+      if (selectedIds.includes(manager.id)) checkbox.checked = true;
+      label.appendChild(checkbox);
+      label.appendChild(document.createTextNode(` ${manager.first_name} ${manager.last_name} ${manager.second_last_name} (${manager.run})`));
+      container.appendChild(label);
     });
   } catch (e) {
-    managersSelect.innerHTML = '<option disabled>Error al cargar encargados</option>';
+    container.innerHTML = '<span style="color:#d32f2f">Error al cargar encargados</span>';
   }
 }
 
@@ -38,7 +43,7 @@ async function loadManagers(managersSelect, selectedIds = []) {
  */
 async function fillEditForm() {
   const form = document.getElementById('warehouse-edit-form');
-  const managersSelect = form.querySelector('select[name="managers"]');
+  const managersContainer = form.querySelector('#managers-checkboxes');
   const warehouseId = getWarehouseIdFromUrl();
   if (!warehouseId) {
     document.getElementById('form-message').textContent = 'ID de bodega no especificado.';
@@ -53,7 +58,7 @@ async function fillEditForm() {
   form.address.value = w.address;
   form.endowment.value = w.endowment;
   form.is_active.value = w.is_active ? 'true' : 'false';
-  await loadManagers(managersSelect, w.manager_ids || []);
+  await loadManagersCheckboxes(managersContainer, w.manager_ids || []);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -63,14 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const warehouseId = getWarehouseIdFromUrl();
-    const managersSelect = form.querySelector('select[name="managers"]');
     const isActiveSelect = form.querySelector('select[name="is_active"]');
+    const checkedManagers = Array.from(form.querySelectorAll('input[name="managers"]:checked')).map(cb => cb.value);
     const data = {
       id: warehouseId,
       name: form.name.value.trim(),
       address: form.address.value.trim(),
       endowment: parseInt(form.endowment.value, 10),
-      manager_ids: Array.from(managersSelect.selectedOptions).map(opt => opt.value),
+      manager_ids: checkedManagers,
       is_active: isActiveSelect.value === 'true'
     };
     console.log('Datos a enviar:', data);

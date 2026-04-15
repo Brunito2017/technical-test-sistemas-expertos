@@ -1,0 +1,117 @@
+body {
+	font-family: Arial, sans-serif;
+	background-color: #f7f7f7;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	color: #333;
+	text-align: center;
+	margin-top: 32px;
+}
+
+form {
+	background: #fff;
+	max-width: 400px;
+	margin: 24px auto;
+	padding: 24px 32px 16px 32px;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+fieldset {
+	border: 1px solid #ccc;
+	border-radius: 6px;
+	padding: 16px 12px 12px 12px;
+	margin-bottom: 12px;
+}
+
+legend {
+	font-weight: bold;
+	color: #444;
+}
+
+label {
+	display: block;
+	margin-bottom: 12px;
+	color: #222;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+	width: 100%;
+	padding: 7px 8px;
+	margin-top: 4px;
+	border: 1px solid #bbb;
+	border-radius: 4px;
+	box-sizing: border-box;
+	font-size: 1em;
+}
+
+button[type="submit"], button[type="button"] {
+	background: #1976d2;
+	color: #fff;
+	border: none;
+	border-radius: 4px;
+	padding: 8px 18px;
+	font-size: 1em;
+	cursor: pointer;
+	margin-top: 8px;
+	transition: background 0.2s;
+}
+
+button[type="submit"]:hover, button[type="button"]:hover {
+	background: #125ea2;
+}
+
+#form-message {
+	text-align: center;
+	margin-bottom: 16px;
+	color: #d32f2f;
+	font-weight: bold;
+}
+
+a {
+	color: #1976d2;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+/* Tabla de bodegas */
+table#warehouse-table {
+	width: 95%;
+	margin: 0 auto 32px auto;
+	background: #fff;
+	border-collapse: collapse;
+	box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+table#warehouse-table th, table#warehouse-table td {
+	padding: 10px 8px;
+	text-align: left;
+}
+
+table#warehouse-table th {
+	background: #1976d2;
+	color: #fff;
+}
+
+table#warehouse-table tr:nth-child(even) {
+	background: #f2f2f2;
+}
+
+table#warehouse-table tr:hover {
+	background: #e3f0fa;
+}
+
+#filter-status {
+	padding: 6px 10px;
+	border-radius: 4px;
+	border: 1px solid #bbb;
+	font-size: 1em;
+}
