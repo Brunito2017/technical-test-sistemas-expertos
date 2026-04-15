@@ -15,8 +15,8 @@ class Warehouse
         $this->name      = $data['name'] ?? '';
         $this->address   = $data['address'] ?? '';
         $this->endowment = $data['endowment'] ?? 0;
-        $this->created_at = isset($data['created_at']) ? new DateTime($data['created_at']) : null;
-        $this->updated_at = isset($data['updated_at']) ? new DateTime($data['updated_at']) : null;
+        $this->created_at = $data['created_at'] ?? null;
+        $this->updated_at = $data['updated_at'] ?? null;
         $this->is_active = $data['is_active'] ?? true;
     }
 }
