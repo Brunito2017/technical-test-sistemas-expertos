@@ -22,7 +22,7 @@ class WareHouseService
      * @param string|null $status Filtra por estado: 'active', 'inactive' o null para todas
      * @return array Lista de bodegas
      */
-    public function getAllWarehouses(?string $status = null): array
+    public function getAllWarehouses($status = null): array
     {
         $query = "SELECT w.*, 
     string_agg(CONCAT(u.first_name, ' ', u.last_name, ' ', u.second_last_name), ', ') as manager_name
