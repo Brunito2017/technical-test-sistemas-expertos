@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Editar Bodega</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>Editar bodega</h1>
+  <form id="warehouse-edit-form" autocomplete="off" style="margin-bottom: 24px;">
+    <fieldset>
+      <legend>Datos de la bodega</legend>
+      <label>Código:<br>
+        <input type="text" name="id" maxlength="5" required pattern="[a-zA-Z0-9]{1,5}" disabled>
+      </label><br>
+      <label>Nombre:<br>
+        <input type="text" name="name" maxlength="100" required>
+      </label><br>
+      <label>Dirección:<br>
+        <input type="text" name="address" required>
+      </label><br>
+      <label>Dotación:<br>
+        <input type="number" name="endowment" min="0" required>
+      </label><br>
+      <label>Encargados:<br>
+        <select name="managers" multiple required>
+        </select>
+      </label><br>
+      <button type="submit">Actualizar</button>
+    </fieldset>
+  </form>
+  <div id="form-message"></div>
+  <a href="index.html">Volver al listado</a>
+  <script type="module" src="js/warehouseEditForm.js"></script>
+</body>
+</html>
